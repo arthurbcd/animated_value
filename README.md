@@ -1,39 +1,47 @@
-<!--
-This README describes the package. If you publish this package to pub.dev,
-this README's contents appear on the landing page for your package.
+# animated_value
 
-For information about how to write a good package README, see the guide for
-[writing package pages](https://dart.dev/guides/libraries/writing-package-pages).
+The `animated_value` package provides a simple and flexible way to animate values in Flutter. It uses a custom `lerp` (linear interpolation) function or a custom builder function to create smooth animations with ease.
 
-For general information about developing packages, see the Dart guide for
-[creating packages](https://dart.dev/guides/libraries/create-library-packages)
-and the Flutter guide for
-[developing packages and plugins](https://flutter.dev/developing-packages).
--->
-
-TODO: Put a short description of the package here that helps potential users
-know whether this package might be useful for them.
-
-## Features
-
-TODO: List what your package can do. Maybe include images, gifs, or videos.
-
-## Getting started
-
-TODO: List prerequisites and provide or point to information on how to
-start using the package.
+It's all implicit! Just change the value like you would do in an `AnimatedContainer`.
 
 ## Usage
 
-TODO: Include short and useful examples for package users. Add longer examples
-to `/example` folder.
+Here's a basic example of how to use the AnimatedValue widget to animate a `ButtonStyle`:
 
 ```dart
-const like = 'sample';
+  AnimatedValue<ButtonStyle?>(
+    // the value to animate
+    value: condition ? buttonStyle1 : buttonStyle2,
+
+    // optional `lerp()` for complex objects
+    lerp: ButtonStyle.lerp,
+
+    // rebuilds on animation
+    builder: (context, value, _) {
+      return ElevatedButton(
+        style: value,
+        child: Text('easy animated style!'),
+      );
+    },
+  )
 ```
 
-## Additional information
+## Custom Interpolation with LerpTween and LerpCallback
 
-TODO: Tell users more about the package: where to find more information, how to
-contribute to the package, how to file issues, what response they can expect
-from the package authors, and more.
+`animated_value` provides the `LerpTween` class and `LerpCallback` type for custom interpolation between two values. Here's a brief explanation and usage example:
+
+```dart
+final tween = LerpTween(
+    begin: ...,
+    end: ...,
+    lerp: AppBarTheme.lerp,
+);
+```
+
+## Extension Methods
+
+The `animated_value` package also provides extension methods for the `LerpCallback` class, allowing for easier creation of `LerpTween` objects. Here's an example of how you can use these extension methods:
+
+```dart
+final tween = AppBarTheme.lerp.tween(begin: ..., end: ...);
+```
